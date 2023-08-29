@@ -1,0 +1,29 @@
+<?php
+
+class Skills extends Table
+{
+    const LOGICAL_NAME = "skills";
+    const ID = "id";
+
+    const Name = "name";
+
+    const Resource = "resource";
+
+
+    public function __construct()
+    {
+        parent::__construct(self::LOGICAL_NAME);
+    }
+
+    public function getSchema(): Schema
+    {
+        $builder = new SchemaBuilder($this->logicalName, self::Name);
+        $builder->addColumn(self::ID, SchemaType::$int, SCHEMA_PRIMARY_KEY | SCHEMA_AUTO_INCREMENT | SCHEMA_PRIVATE);
+        $builder->addColumn(self::Name, SchemaType::$text, SCHEMA_UNIQUE);
+        $builder->addColumn(self::Resource, SchemaType::ref_of(Resource::LOGICAL_NAME));
+
+        return Schema::from($builder);
+    }
+}
+
+Table::register(new Skills());
